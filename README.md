@@ -19,6 +19,7 @@ To select the best hyperparameter for our training model, we use a range of hype
 
 ## fitting an estimator with profiling and debugging settings
 To train a classification model, we add a profilier which logs a collection of performance metrics during the training and inference. We also add a debugging configuration to help developing better models by catching anomalies while training models. The fitted model will be used for deployment.
+![estimator](images/est.png)
 
 ## Deployment
 The deployment of model is done via creating an **endpoint**. SageMaker provides an HTTPS endpoint where the machine learning model is available to provide inferences (predicting dog breed in our case).
