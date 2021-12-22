@@ -35,7 +35,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def model_fn(model_dir):
-    print("In model_fn. Model directory is -")
+    print("In model_fn. Model directory is -", model_dir)
     print(model_dir)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = Net().to(device)
@@ -43,6 +43,7 @@ def model_fn(model_dir):
     with open(os.path.join(model_dir, "model.pth"), "rb") as f:
         print("Loading the dog-classifier model")
         checkpoint = torch.load(f , map_location =device)
+        print('checkpoint is made')
         model.load_state_dict(checkpoint)
         print('MODEL-LOADED')
         logger.info('model loaded successfully')
