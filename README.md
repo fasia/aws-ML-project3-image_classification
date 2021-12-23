@@ -20,12 +20,19 @@ To select the best hyperparameter for our training model, we use a range of hype
 ## fitting an estimator with profiling and debugging settings
 To train a classification model, we add a profilier which logs a collection of performance metrics during the training and inference. We also add a debugging configuration to help developing better models by catching anomalies while training models. The fitted model will be used for deployment.
 ![estimator](images/est.png)
+![trainedmodel](images/trained_model.png)
+
+We set a debugger hook to record the *Loss Criterion* of the process in both **training** and **validation**. The plot below shows the cross entropy loss for the training and validation processes.
+![plot](images/plot.png)
 
 ## Deployment
 The deployment of model is done via creating an **endpoint**. SageMaker provides an HTTPS endpoint where the machine learning model is available to provide inferences (predicting dog breed in our case).
+![endpoint](images/inference.png)
 
 ## Test the model
-To check if the model works correctly, a user can communicate with the endpoint by sending a HTTPS request with a image of a dog in bytes format. The response is a list of 133 diffrent float numbers as prediction of 133 diffrenet dog breed classes. The index of highest prediction in the list is used as the index of the list of the dog breeds.   
+To check if the model works correctly, a user can communicate with the endpoint by sending a HTTPS request with a image of a dog in bytes format. The response is a list of 133 diffrent float numbers as prediction of 133 diffrenet dog breed classes. The index of highest prediction in the list is used as the index of the list of the dog breeds. 
+The figure below is a snapshot of the cloudwatch logs for a request and it's reponse.
+![cloudwatch](images/cloudwatch.png)
 
 ## Scripts 
 The following files are included for the project:
