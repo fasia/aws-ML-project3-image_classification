@@ -20,7 +20,7 @@ To select the best hyperparameter for our training model, we use a range of hype
 ## fitting an estimator with profiling and debugging settings
 To train a classification model, we add a profilier which logs a collection of performance metrics during the training and inference. We also add a debugging configuration to help developing better models by catching anomalies while training models. The fitted model will be used for deployment.
 ![estimator](images/est.png)
-![trainedmodel](images/trained_model.png)
+![trainedmodel](images/train_model.png)
 
 We set a debugger hook to record the *Loss Criterion* of the process in both **training** and **validation**. The plot below shows the cross entropy loss for the training and validation processes.
 ![plot](images/plot.png)
