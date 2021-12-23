@@ -89,18 +89,10 @@ def predict_fn(input_object, model):
         prediction = model(input_object.unsqueeze(0))
     return prediction
 
-'''
+
 # postprocess
 def output_fn(predictions, content_type):
     assert content_type == "application/json"
     res = predictions.cpu().numpy().tolist()
+    print('response from output_fn: ',res)
     return json.dumps(res)
-
-# Serialize the prediction result into the desired response content type
-def output_fn(prediction, accept=JSON_CONTENT_TYPE):        
-    logger.info('Serializing the generated output.')
-    if accept == JSON_CONTENT_TYPE: 
-        logger.debug(f'Returning response {json.dumps(prediction)}')
-        return json.dumps(prediction), accept
-    raise Exception('Requested unsupported ContentType in Accept: {}'.format(accept))
-'''
