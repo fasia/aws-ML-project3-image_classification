@@ -15,13 +15,12 @@ The project is done in Sagemaker Jupyter notebook. The dependencies such as `smd
 ## hyperparameter Tuning
 To select the best hyperparameter for our training model, we use a range of hyperparameters and execute multiple training jobs with different hyperparameters. The hyperparameter of the best tuner (with the least loss score) is used for training a classification model.
 
-![Training jobs](images/training_jobs.png)
+![Training jobs](images/tuner_training_jobs.png)
+![best_model](images/inside_model.png)
 
 ## fitting an estimator with profiling and debugging settings
 To train a classification model, we add a profilier which logs a collection of performance metrics during the training and inference. We also add a debugging configuration to help developing better models by catching anomalies while training models. The fitted model will be used for deployment.
 ![trainedmodel](images/train_model.png)
-![estimator](images/inside_model.png)
-
 
 We set a debugger hook to record the *Loss Criterion* of the process in both **training** and **validation**. The plot below shows the cross entropy loss for the training and validation processes.
 ![plot](images/plot.png)
