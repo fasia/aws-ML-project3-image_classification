@@ -14,9 +14,9 @@ import logging
 import sys
 from tqdm import tqdm
 from PIL import ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 import smdebug.pytorch as smd
 
-ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 logger=logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -24,7 +24,7 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 
 def test(model, test_loader, criterion, hook):
     model.eval()
-    hook.set_mode(smd.modes.EVAL) # assign the debugger hook
+    hook.set_mode(smd.modes.EVAL)
     running_loss=0
     running_corrects=0
     
@@ -42,20 +42,22 @@ def test(model, test_loader, criterion, hook):
     logger.info(f"Testing Accuracy: {total_acc}")
 
 def train(model, train_loader, validation_loader, criterion, optimizer, hook):
-    epochs=3
+    epochs=50
     best_loss=1e6
-    hook.set_mode(smd.modes.TRAIN) # set debugging hook
     image_dataset={'train':train_loader, 'valid':validation_loader}
     loss_counter=0
-    
+    hook.set_mode(smd.modes.TRAIN)
+
     for epoch in range(epochs):
         logger.info(f"Epoch: {epoch}")
         for phase in ['train', 'valid']:
             if phase=='train':
+                logger.info(f"in phase: {phase}")
                 model.train()
-                hook.set_mode(smd.modes.TRAIN) # set debugging hook
+                hook.set_mode(smd.modes.TRAIN)
 
             else:
+                logger.info(f"in phase: {phase}")
                 model.eval()
                 hook.set_mode(smd.modes.EVAL)
             running_loss = 0.0
@@ -69,6 +71,7 @@ def train(model, train_loader, validation_loader, criterion, optimizer, hook):
                     optimizer.zero_grad()
                     loss.backward()
                     optimizer.step()
+
 
                 _, preds = torch.max(outputs, 1)
                 running_loss += loss.item() * inputs.size(0)
@@ -139,13 +142,13 @@ def main(args):
     
     train_loader, test_loader, validation_loader=create_data_loaders(args.data, args.batch_size)
     model=net()
-    
     hook = smd.Hook.create_from_json_file()
     hook.register_module(model)
     
     criterion = nn.CrossEntropyLoss(ignore_index=133)
     optimizer = optim.Adam(model.fc.parameters(), lr=args.learning_rate)
     hook.register_loss(criterion)
+    
     logger.info("Starting Model Training")
     model=train(model, train_loader, validation_loader, criterion, optimizer, hook)
     
@@ -162,9 +165,8 @@ if __name__=='__main__':
     parser.add_argument('--data', type=str, default=os.environ['SM_CHANNEL_TRAINING'])
     parser.add_argument('--model_dir', type=str, default=os.environ['SM_MODEL_DIR'])
     parser.add_argument('--output_dir', type=str, default=os.environ['SM_OUTPUT_DATA_DIR'])
-
     
     args=parser.parse_args()
-    print(args)
+    print('args: ',args)
     
     main(args)
