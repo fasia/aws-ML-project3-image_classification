@@ -31,6 +31,10 @@ The deployment of model is done via creating an **endpoint**. SageMaker provides
 
 ## Test the model
 To check if the model works correctly, a user can communicate with the endpoint by sending a HTTPS request with a image of a dog in bytes format. The response is a list of 133 diffrent float numbers as prediction of 133 diffrenet dog breed classes. The index of highest prediction in the list is used as the index of the list of the dog breeds. 
+
+### Example: 
+![prediction](images/prediction.png)
+
 The figure below is a snapshot of the cloudwatch logs for a request and it's reponse.
 ![cloudwatch](images/cloudwatch.png)
 
